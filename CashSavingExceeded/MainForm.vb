@@ -39,7 +39,10 @@ Public Class MainForm
     'Public variables
     Public menuShow As New ToolStripMenuItem
     Public menuExit As New ToolStripMenuItem
+    Public menuLock As New ToolStripMenuItem
     Public menuAbout As New ToolStripMenuItem
+    Public menuEnable As New ToolStripMenuItem
+    Public menuDisable As New ToolStripMenuItem
 
     'Main Form loading event
     Private Sub MainForm_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
@@ -52,11 +55,12 @@ Public Class MainForm
 
         'Restore chosen action in main Form from user settings
         rbSleep.Checked = My.Settings.rbSleep
+        rbHibernate.Checked = My.Settings.rbHibernate
         rbReboot.Checked = My.Settings.rbReboot
         rbLogOff.Checked = My.Settings.rbLogOff
         rbShutdown.Checked = My.Settings.rbShutdown
 
-        'Restore startup mode in main Form from user settins
+        'Restore startup mode in main Form from user settings
         If My.Settings.cbStartup = True Then
             cbStartup.Checked = True
             Call addAppToStartupFolder()
@@ -84,17 +88,35 @@ Public Class MainForm
             Call unlockForm()
         End If
 
-        'Add 3 ToolStripMenuItems to the ContextMenuStrip :
+        'Add 5 ToolStripMenuItems to the ContextMenuStrip :
         ' - Show
         ' - About
         ' - Exit
+        ' - Lock
+        ' - Enable / Disable
         menuShow.Text = "Show"
         menuExit.Text = "Exit"
+        menuLock.Text = "Screen off"
         menuAbout.Text = "About"
+        menuEnable.text = "Enable"
+        menuDisable.text = "Disable"
         menuShow.Image = My.Resources.settings_small
         menuExit.Image = My.Resources.exit_small
+        menuLock.Image = My.Resources.lock_small
         menuAbout.Image = My.Resources.about_small
+        menuEnable.Image = My.Resources.enable_small
+        menuDisable.Image = My.Resources.disable_small
+        menuShow.ToolTipText = "Show " & My.Application.Info.AssemblyName
+        menuExit.ToolTipText = "Exit " & My.Application.Info.AssemblyName
+        menuLock.ToolTipText = "Turn off screen(s) & lock computer"
+        menuAbout.ToolTipText = "About " & My.Application.Info.AssemblyName
+        menuEnable.ToolTipText = "Enable scheduled task"
+        menuDisable.ToolTipText = "Disable scheduled task"
         contextMenuStripMain.Items.Add(menuShow)
+        contextMenuStripMain.Items.Add(New ToolStripSeparator())
+        contextMenuStripMain.Items.Add(menuEnable)
+        contextMenuStripMain.Items.Add(menuDisable)
+        contextMenuStripMain.Items.Add(menuLock)
         contextMenuStripMain.Items.Add(New ToolStripSeparator())
         contextMenuStripMain.Items.Add(menuAbout)
         contextMenuStripMain.Items.Add(New ToolStripSeparator())
@@ -103,8 +125,14 @@ Public Class MainForm
         AddHandler menuShow.Click, AddressOf showApp
         'Close main Form on click event for "Exit" menu item
         AddHandler menuExit.Click, AddressOf Me.Close
+        'Turn off screen(s) & lock computer on click event for "Lock" menu item
+        AddHandler menuLock.Click, AddressOf cbLock_Click
         'Show "About" Form on click event for "About" menu item
         AddHandler menuAbout.Click, AddressOf cbAbout_Click
+        'Enable scheduled task on click event for "Enable" menu item
+        AddHandler menuEnable.Click, AddressOf cbEnable_Click
+        'Disable scheduled task on click event for "Disable" menu item
+        AddHandler menuDisable.Click, AddressOf cbDisable_Click
 
         'Add ContextMenuStrip to the NotifyIcon
         notifyIconMain.ContextMenuStrip = contextMenuStripMain
@@ -114,10 +142,12 @@ Public Class MainForm
         tooltipMain.SetToolTip(cbEnable, "Enable scheduled task")
         tooltipMain.SetToolTip(cbDisable, "Disable scheduled task")
         tooltipMain.SetToolTip(cbReset, "Restore default values")
+        tooltipMain.SetToolTip(cbLock, "Turn off screen(s) & lock computer")
         tooltipMain.SetToolTip(rbShutdown, "Shutdown computer")
         tooltipMain.SetToolTip(rbReboot, "Reboot computer")
         tooltipMain.SetToolTip(rbLogOff, "Disconnect active user")
-        tooltipMain.SetToolTip(rbSleep, "Hibernate computer")
+        tooltipMain.SetToolTip(rbSleep, "Sleep computer")
+        tooltipMain.SetToolTip(rbHibernate, "Hibernate computer")
 
         'Start minimized if at Windows startup
         If My.Application.CommandLineArgs.Count > 0 Then
@@ -130,7 +160,9 @@ Public Class MainForm
     'Lock main Form : when thread t is running
     Private Sub lockForm()
         cbEnable.Enabled = False
+        menuEnable.Visible = False
         cbDisable.Enabled = True
+        menuDisable.Visible = True
         cbDisable.Focus()
         nudHour.Enabled = False
         nudMinute.Enabled = False
@@ -146,7 +178,9 @@ Public Class MainForm
     'Unlock main Form : when thread t is not running
     Private Sub unlockForm()
         cbEnable.Enabled = True
+        menuEnable.Visible = True
         cbDisable.Enabled = False
+        menuDisable.Visible = False
         cbEnable.Focus()
         nudHour.Enabled = True
         nudMinute.Enabled = True
@@ -157,7 +191,7 @@ Public Class MainForm
 
     'Reset main Form to default values
     Private Sub resetForm()
-        rbSleep.Checked = True
+        rbHibernate.Checked = True
         nudHour.Value = 20
         nudMinute.Value = 30
     End Sub
@@ -173,7 +207,7 @@ Public Class MainForm
         Do
             If dtNext < DateTime.Now Then
                 dtNext = dtNext.AddDays(1)
-                'Shutdown, hibernate, reboot computer or disconnect 
+                'Shutdown, sleep, hibernate, reboot computer or disconnect 
                 If My.Settings.easter_egg = True Then
                     My.Computer.Audio.Play(My.Resources.cash_register, AudioPlayMode.Background)
                 End If
@@ -181,6 +215,8 @@ Public Class MainForm
                     Call shutdown()
                     notifyIconMain.BalloonTipText = "Click here to cancel computer " & rbShutdown.Text.ToLower & "."
                 ElseIf rbSleep.Checked Then
+                    Call sleep()
+                ElseIf rbHibernate.Checked Then
                     Call hibernate()
                 ElseIf rbReboot.Checked Then
                     Call reboot()
@@ -203,6 +239,16 @@ Public Class MainForm
     'If "?" button is clicked, show the "About" Form
     Private Sub cbAbout_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cbAbout.Click
         ABOUT.Show()
+    End Sub
+
+    'If "Lock" button is clicked :
+    ' - lock computer
+    ' - wait 3 seconds
+    ' - turn off screen(s)
+    Private Sub cbLock_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles cbLock.Click
+        Call LockWorkStation()
+        Threading.Thread.Sleep(3000)
+        Call SendMessage(Me.Handle, WM_SYSCOMMAND, CType(SC_MONITORPOWER, IntPtr), CType(MonitorShutoff, IntPtr))
     End Sub
 
     'If "Enable" button is clicked :
@@ -308,13 +354,15 @@ Public Class MainForm
         My.Settings.Save()
     End Sub
 
-    'Set chosen action to user settings from main Form input : Shutdown, hibernate, reboot computer or disconnect user
-    Private Sub rb_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rbSleep.CheckedChanged, rbShutdown.CheckedChanged, rbLogOff.CheckedChanged, rbReboot.CheckedChanged
+    'Set chosen action to user settings from main Form input : Shutdown, sleep, hibernate, reboot computer or disconnect user
+    Private Sub rb_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rbSleep.CheckedChanged, rbHibernate.CheckedChanged, rbShutdown.CheckedChanged, rbLogOff.CheckedChanged, rbReboot.CheckedChanged
         Select Case True
             Case sender Is rbSleep
                 My.Settings.rbSleep = sender.Checked
             Case sender Is rbReboot
                 My.Settings.rbReboot = sender.Checked
+            Case sender Is rbHibernate
+                My.Settings.rbHibernate = sender.Checked
             Case sender Is rbLogOff
                 My.Settings.rbLogOff = sender.Checked
             Case sender Is rbShutdown

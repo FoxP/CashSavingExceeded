@@ -9,7 +9,7 @@
       <Value Profile="(Default)">30</Value>
     </Setting>
     <Setting Name="rbSleep" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">True</Value>
+      <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="rbShutdown" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
@@ -28,6 +28,9 @@
     </Setting>
     <Setting Name="cbStartup" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="rbHibernate" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
     </Setting>
   </Settings>
 </SettingsFile>

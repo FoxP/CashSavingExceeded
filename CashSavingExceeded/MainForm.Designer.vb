@@ -44,6 +44,8 @@ Partial Class MainForm
         Me.tooltipMain = New System.Windows.Forms.ToolTip(Me.components)
         Me.lbSeparator = New System.Windows.Forms.Label()
         Me.cbStartup = New System.Windows.Forms.CheckBox()
+        Me.rbHibernate = New System.Windows.Forms.RadioButton()
+        Me.cbLock = New System.Windows.Forms.Button()
         CType(Me.nudHour, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.nudMinute, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.pbSpinner, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -81,27 +83,27 @@ Partial Class MainForm
         'rbShutdown
         '
         Me.rbShutdown.AutoSize = True
-        Me.rbShutdown.Location = New System.Drawing.Point(12, 41)
+        Me.rbShutdown.Location = New System.Drawing.Point(291, 41)
         Me.rbShutdown.Name = "rbShutdown"
         Me.rbShutdown.Size = New System.Drawing.Size(73, 17)
-        Me.rbShutdown.TabIndex = 2
+        Me.rbShutdown.TabIndex = 7
         Me.rbShutdown.Text = "Shutdown"
         Me.rbShutdown.UseVisualStyleBackColor = True
         '
         'rbSleep
         '
         Me.rbSleep.AutoSize = True
-        Me.rbSleep.Location = New System.Drawing.Point(128, 41)
+        Me.rbSleep.Location = New System.Drawing.Point(230, 41)
         Me.rbSleep.Name = "rbSleep"
         Me.rbSleep.Size = New System.Drawing.Size(52, 17)
-        Me.rbSleep.TabIndex = 3
+        Me.rbSleep.TabIndex = 6
         Me.rbSleep.Text = "Sleep"
         Me.rbSleep.UseVisualStyleBackColor = True
         '
         'rbLogOff
         '
         Me.rbLogOff.AutoSize = True
-        Me.rbLogOff.Location = New System.Drawing.Point(221, 41)
+        Me.rbLogOff.Location = New System.Drawing.Point(93, 41)
         Me.rbLogOff.Name = "rbLogOff"
         Me.rbLogOff.Size = New System.Drawing.Size(58, 17)
         Me.rbLogOff.TabIndex = 4
@@ -111,7 +113,7 @@ Partial Class MainForm
         'rbReboot
         '
         Me.rbReboot.AutoSize = True
-        Me.rbReboot.Location = New System.Drawing.Point(304, 41)
+        Me.rbReboot.Location = New System.Drawing.Point(161, 41)
         Me.rbReboot.Name = "rbReboot"
         Me.rbReboot.Size = New System.Drawing.Size(60, 17)
         Me.rbReboot.TabIndex = 5
@@ -121,10 +123,10 @@ Partial Class MainForm
         'cbAbout
         '
         Me.cbAbout.Cursor = System.Windows.Forms.Cursors.Help
-        Me.cbAbout.Location = New System.Drawing.Point(328, 71)
+        Me.cbAbout.Location = New System.Drawing.Point(329, 71)
         Me.cbAbout.Name = "cbAbout"
-        Me.cbAbout.Size = New System.Drawing.Size(30, 23)
-        Me.cbAbout.TabIndex = 9
+        Me.cbAbout.Size = New System.Drawing.Size(29, 23)
+        Me.cbAbout.TabIndex = 12
         Me.cbAbout.Text = "?"
         Me.cbAbout.UseVisualStyleBackColor = True
         '
@@ -153,26 +155,26 @@ Partial Class MainForm
         Me.cbEnable.Cursor = System.Windows.Forms.Cursors.Arrow
         Me.cbEnable.Location = New System.Drawing.Point(11, 71)
         Me.cbEnable.Name = "cbEnable"
-        Me.cbEnable.Size = New System.Drawing.Size(95, 23)
-        Me.cbEnable.TabIndex = 6
+        Me.cbEnable.Size = New System.Drawing.Size(90, 23)
+        Me.cbEnable.TabIndex = 8
         Me.cbEnable.Text = "Enable"
         Me.cbEnable.UseVisualStyleBackColor = True
         '
         'cbReset
         '
-        Me.cbReset.Location = New System.Drawing.Point(243, 71)
+        Me.cbReset.Location = New System.Drawing.Point(265, 71)
         Me.cbReset.Name = "cbReset"
-        Me.cbReset.Size = New System.Drawing.Size(65, 23)
-        Me.cbReset.TabIndex = 8
+        Me.cbReset.Size = New System.Drawing.Size(59, 23)
+        Me.cbReset.TabIndex = 11
         Me.cbReset.Text = "Reset"
         Me.cbReset.UseVisualStyleBackColor = True
         '
         'cbDisable
         '
-        Me.cbDisable.Location = New System.Drawing.Point(127, 71)
+        Me.cbDisable.Location = New System.Drawing.Point(106, 71)
         Me.cbDisable.Name = "cbDisable"
-        Me.cbDisable.Size = New System.Drawing.Size(95, 23)
-        Me.cbDisable.TabIndex = 7
+        Me.cbDisable.Size = New System.Drawing.Size(90, 23)
+        Me.cbDisable.TabIndex = 9
         Me.cbDisable.Text = "Disable"
         Me.cbDisable.UseVisualStyleBackColor = True
         '
@@ -223,9 +225,29 @@ Partial Class MainForm
         Me.cbStartup.Location = New System.Drawing.Point(192, 14)
         Me.cbStartup.Name = "cbStartup"
         Me.cbStartup.Size = New System.Drawing.Size(173, 17)
-        Me.cbStartup.TabIndex = 24
+        Me.cbStartup.TabIndex = 2
         Me.cbStartup.Text = " Launch at user session startup"
         Me.cbStartup.UseVisualStyleBackColor = True
+        '
+        'rbHibernate
+        '
+        Me.rbHibernate.AutoSize = True
+        Me.rbHibernate.Location = New System.Drawing.Point(12, 41)
+        Me.rbHibernate.Name = "rbHibernate"
+        Me.rbHibernate.Size = New System.Drawing.Size(71, 17)
+        Me.rbHibernate.TabIndex = 3
+        Me.rbHibernate.Text = "Hibernate"
+        Me.rbHibernate.UseVisualStyleBackColor = True
+        '
+        'cbLock
+        '
+        Me.cbLock.Cursor = System.Windows.Forms.Cursors.Default
+        Me.cbLock.Location = New System.Drawing.Point(201, 71)
+        Me.cbLock.Name = "cbLock"
+        Me.cbLock.Size = New System.Drawing.Size(59, 23)
+        Me.cbLock.TabIndex = 10
+        Me.cbLock.Text = "Lock"
+        Me.cbLock.UseVisualStyleBackColor = True
         '
         'MainForm
         '
@@ -233,6 +255,8 @@ Partial Class MainForm
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
         Me.ClientSize = New System.Drawing.Size(370, 100)
+        Me.Controls.Add(Me.cbLock)
+        Me.Controls.Add(Me.rbHibernate)
         Me.Controls.Add(Me.lbText_2)
         Me.Controls.Add(Me.lbText_1)
         Me.Controls.Add(Me.cbDisable)
@@ -282,5 +306,7 @@ Partial Class MainForm
     Friend WithEvents tooltipMain As System.Windows.Forms.ToolTip
     Friend WithEvents lbSeparator As System.Windows.Forms.Label
     Friend WithEvents cbStartup As System.Windows.Forms.CheckBox
+    Friend WithEvents rbHibernate As System.Windows.Forms.RadioButton
+    Friend WithEvents cbLock As System.Windows.Forms.Button
 
 End Class

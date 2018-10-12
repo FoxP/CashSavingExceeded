@@ -80,7 +80,7 @@ Namespace My
         
         <Global.System.Configuration.UserScopedSettingAttribute(),  _
          Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
+         Global.System.Configuration.DefaultSettingValueAttribute("False")>  _
         Public Property rbSleep() As Boolean
             Get
                 Return CType(Me("rbSleep"),Boolean)
@@ -159,6 +159,18 @@ Namespace My
             End Get
             Set
                 Me("cbStartup") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("True")>  _
+        Public Property rbHibernate() As Boolean
+            Get
+                Return CType(Me("rbHibernate"),Boolean)
+            End Get
+            Set
+                Me("rbHibernate") = value
             End Set
         End Property
     End Class

@@ -45,6 +45,7 @@
     <NoWarn>41999,42016,42017,42018,42019,42020,42021,42022,42032,42036</NoWarn>
     <WarningsAsErrors>
     </WarningsAsErrors>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -204,7 +205,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ressources\pictures\about_small.png" />
+    <Content Include="ressources\pictures\disable_small.png" />
+    <Content Include="ressources\pictures\enable_small.png" />
     <Content Include="ressources\pictures\exit_small.png" />
+    <Content Include="ressources\pictures\lock_small.png" />
     <Content Include="ressources\pictures\settings_small.png" />
     <Content Include="ressources\sounds\cash_register.wav" />
     <Content Include="ressources\pictures\spinner.gif" />
