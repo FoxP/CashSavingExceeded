@@ -3,6 +3,11 @@
 ## About
 Windows tool to automatically shut down, reboot, log off or hibernate a computer **every day** at a specified time.
 
+- Do your employees generally leave their computers on all the time?  
+- Do you want to motivate them to participate actively in saving our planet?
+
+:bulb: Well, give them the choice to shut down /sleep / hibernate their workstation at night!
+
 ![](CashSavingExceeded/ressources/pictures/demo.gif)
 
 ## Features
@@ -31,6 +36,7 @@ Windows tool to automatically shut down, reboot, log off or hibernate a computer
 
 ## Todo
 - Localization
+- Merge with [Zzz...](https://github.com/FoxP/Zzz...) (?)
 - Final countdown before action
 - Low CPU / bandwidth / user activity detection
   
